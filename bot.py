@@ -1,8 +1,7 @@
+import time
+import tkinter as tk
 import pyautogui
 import pandas as pd
-import tkinter as tk
-from tkinter import simpledialog
-import time
 
 
 def join(id, pwd):
@@ -40,19 +39,59 @@ def join(id, pwd):
         break
 
 
-application_window = tk.Tk()
-name = simpledialog.askstring(
-    "input", "Enter subject name", parent=application_window)
-time.sleep(2)
+# custom UI
+win = tk.Tk()
+win.geometry("700x540")
+win.title("Zoom Bot")
 
-# Reading the file
-df = pd.read_csv('links.csv')
-row = df.loc[df['sub'] == name]
-id = str(row.iloc[0, 1])
-pwd = str(row.iloc[0, 2])
-print(id + " " + pwd)
-join(id, pwd)
-print("Done")
+
+# Reading File
+def readfile(name):
+
+    df = pd.read_csv('links.csv')
+    # print((df['sub'] == name).any())
+    if((df['sub'] == name).any()):
+        row = df.loc[df['sub'] == name]
+        id = str(row.iloc[0, 1])
+        pwd = str(row.iloc[0, 2])
+        print(id + " " + pwd)
+        join(id, pwd)
+        time.sleep(5)
+    else:
+        print("Invalid Input")
+        errlabel.config(text="Invalid Subject name")
+
+    print("Done")
+
+
+def getInput():
+    name = entry.get(1.0, "end-1c")
+    if(name != ""):
+        print(type(name))
+        readfile(str(name))
+    else:
+        print("Not input")
+
+
+# Display Label
+label = tk.Label(win, text="Enter Subject Name:")
+label.pack()
+errlabel = tk.Label(win, text="")
+errlabel.pack()
+
+
+# Input box
+entry = tk.Text(win, width=10, height=2)
+entry.pack()
+
+# Button
+button = tk.Button(
+    win, text="Join", command=getInput)
+button.pack()
+
+win.mainloop()
+
+
 # checks time between 10mins  gap
 
 
