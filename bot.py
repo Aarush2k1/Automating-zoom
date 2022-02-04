@@ -1,5 +1,7 @@
+import datetime as dt
 import time
-import tkinter as tk
+from tkinter import Tk
+from csv import *
 import pyautogui
 import pandas as pd
 
@@ -39,13 +41,9 @@ def join(id, pwd):
         break
 
 
-# custom UI
-win = tk.Tk()
-win.geometry("700x540")
-win.title("Zoom Bot")
-
-
 # Reading File
+
+
 def readfile(name):
 
     df = pd.read_csv('links.csv')
@@ -64,42 +62,40 @@ def readfile(name):
     print("Done")
 
 
-def getInput():
-    name = entry.get(1.0, "end-1c")
-    if(name != ""):
-        print(type(name))
-        readfile(str(name))
-    else:
-        print("Not input")
+# Main window of UI
+win = Tk()
+win.geometry("700x540")
+win.title("Zoom Bot")
+curr_day = dt.datetime.now().strftime("%A")
+curr_time = time.strftime("%I:%M %p")
 
+title = Label(win, text="Time Table ", pady=20)
+title.pack()
 
-# Display Label
-label = tk.Label(win, text="Enter Subject Name:")
-label.pack()
-errlabel = tk.Label(win, text="")
-errlabel.pack()
-
-
-# Input box
-entry = tk.Text(win, width=10, height=2)
-entry.pack()
-
-# Button
-button = tk.Button(
-    win, text="Join", command=getInput)
-button.pack()
+Day = Label(win, text=curr_day, pady=20)
+Day.pack()
+curtime = Label(win, text=curr_time)
+curtime.pack()
 
 win.mainloop()
 
+# Main window
+# filepath = 'tt.csv'
 
-# checks time between 10mins  gap
-
-
-# def is_time_bw(start_time, end_time, check_time=None):
-#     check_time = datetime.now().strftime("%H:%M")
-#     print(check_time)
-#     if start_time < end_time:
-#         return check_time >= start_time and check_time <= end_time
+# root = tk.Tk()
+# root.geometry('900x700+10+10')
+# root.title('Time Table')
 
 
-# x = is_time_bw(str("08:30"), str("09:00"))
+# class TestApp(tk.Frame):
+#     def __init__(self, parent, filepath):
+#         super().__init__(parent)
+#         self.table = Table(self, showtoolbar=True, showstatusbar=True)
+#         self.table.importCSV(filepath)
+#         self.table.show()
+
+
+# app = TestApp(root, filepath)
+# app.pack(fill=tk.BOTH, expand=1)
+
+# root.mainloop()
