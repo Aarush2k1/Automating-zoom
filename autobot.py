@@ -14,7 +14,7 @@ h2 = curr_time.split(":")[0]
 m2 = curr_time.split(":")[0]
 
 
-def join(id, pwd):
+def join(id):
     time.sleep(2)
     pyautogui.hotkey('win', 's')
     time.sleep(1)
@@ -62,8 +62,13 @@ def getNearest():
     return idx
 
 
-link = df[curr_day.upper()].loc[getNearest()]
-if(pd.isnull(link)):
-    print("No class")
+if curr_day.upper() in list(df[0:0]):
+    print('yes')
+    link = df[curr_day.upper()].loc[getNearest()]
+    if(pd.isnull(link)):
+        print("No class")
+    else:
+        join(link.split(":")[1])
+        print(link.split(":")[1])
 else:
-    print(link.split(":")[1])
+    print('no')
